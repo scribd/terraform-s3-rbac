@@ -17,3 +17,12 @@ module "s3_rbac" {
   tags = {"key": "value"}
 }
 ```
+
+## Contribution
+
+If you wish to contribute please do the following:
+
+* First create an issue for a new feature, where Scribd will look to review if it is within the scope of this project
+* Ensure your work abides by terraform best practices
+* Choose simplicity over saving a few lines
+* `terraform fmt` and `terraform validate` before opening a PR
