@@ -1,8 +1,18 @@
 # terraform-s3-rbac
 
-## Purpose
+## Description
 
-Terraform module to allow users to easily create buckets in their own account that gives another account's principal(s) full read/write access to their buckets.
+This Terraform module allow users to easily create buckets in their own account and then give access to said buckets via AWS IAM principals.
+
+Principals are defined in the AWS docs here: [https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_elements_principal.html](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_elements_principal.html)
+
+#### NOTE
+
+Currently only `AWS` principals are supported this includes:
+* IAM Users
+* IAM Roles
+* AWS Accounts
+* Assumed-Role Sessions
 
 ## Usage
 
