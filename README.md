@@ -28,6 +28,26 @@ module "s3_rbac" {
 }
 ```
 
+## Inputs
+
+| Input | Required| Description|
+|-----|------|-----|
+|role_name|yes|The name you want to give to the newly created role|
+|s3_bucket_names|yes|The name(s) of the bucket(s) you would like to create in your AWS account|
+|remote_principals_arns|yes|The ARNs of the principals you wish to let access your buckets. They can be one of: IAM user, IAM Role, AWS Account, or Assumed Role Ression|
+|acl|no|ACL of the S3 bucket(s) you want to create. Default `private`|
+|block_public_acls|no|Defaults to `true`|
+|block_public_policy|no|Defaults to `true`|
+|restrict_public_buckets|no|Defaults to `true`|
+|ignore_public_acls|no|Defaults to `true`|
+
+## Outputs
+
+|Output|Description|
+|----|-----|
+|iam_role_arn|IAM role arn created to be assumed by remote principal(s)|
+|s3_bucket_arns|Your S3 bucket ARNS|
+
 ## Contribution
 
 If you wish to contribute please do the following:
