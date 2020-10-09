@@ -3,7 +3,7 @@ resource "aws_s3_bucket" "s3_buckets" {
   for_each = var.s3_bucket_names
 
   bucket = each.value
-  acl    = "private"
+  acl    = var.acl
   tags   = var.tags
 }
 
@@ -13,10 +13,10 @@ resource "aws_s3_bucket_public_access_block" "s3_buckets" {
 
   bucket = each.value
 
-  block_public_acls       = true
-  block_public_policy     = true
-  restrict_public_buckets = true
-  ignore_public_acls      = true
+  block_public_acls       = var.block_public_acls
+  block_public_policy     = var.block_public_policy
+  restrict_public_buckets = var.restrict_public_buckets
+  ignore_public_acls      = var.ignore_public_acls
 
   depends_on = [aws_s3_bucket.s3_buckets]
 }
