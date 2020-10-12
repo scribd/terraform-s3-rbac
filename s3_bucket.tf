@@ -5,6 +5,18 @@ resource "aws_s3_bucket" "s3_buckets" {
   bucket = each.value
   acl    = var.acl
   tags   = var.tags
+
+  # dynamic "lifecycle_expiration" {
+  #   for_each = var.lifecycle_rule_set
+  #   lifecycle_rule {
+  #     enabled = true
+  #     expiration {
+  #       days = var.lifecycle_rule_days
+  #     }
+  #   }
+  # }
+
+  lifecycle_rule = var.lifecycle_rule
 }
 
 # Make sure no object could ever be public
