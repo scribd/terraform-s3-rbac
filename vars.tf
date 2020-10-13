@@ -56,7 +56,7 @@ variable "ignore_public_acls" {
 }
 
 variable "lifecycle_rule_inputs" {
-  type = set(object({
+  type = list(object({
     enabled                                = string
     abort_incomplete_multipart_upload_days = string
     expiration_inputs = list(object({
