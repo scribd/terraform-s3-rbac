@@ -7,7 +7,7 @@ resource "aws_s3_bucket" "s3_buckets" {
   tags   = var.tags
 
   dynamic "lifecycle_rule" {
-    for_each = var.s3_bucket_names == null ? [] : var.lifecycle_rule_inputs
+    for_each = var.lifecycle_rule_inputs == null ? [] : var.lifecycle_rule_inputs
 
     content {
       enabled                                = lifecycle_rule.value.enabled
