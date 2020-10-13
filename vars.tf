@@ -54,3 +54,14 @@ variable "ignore_public_acls" {
   default     = true
   description = "Only the bucket owner and AWS Services can access this buckets if it has a public policy."
 }
+
+variable "lifecycle_rule_inputs" {
+  type = set(object({
+    enabled                                = string
+    abort_incomplete_multipart_upload_days = string
+    expiration_inputs = list(object({
+      days = number
+    }))
+  }))
+  default = null
+}
