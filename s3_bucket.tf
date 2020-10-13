@@ -6,17 +6,22 @@ resource "aws_s3_bucket" "s3_buckets" {
   acl    = var.acl
   tags   = var.tags
 
-  # dynamic "lifecycle_expiration" {
-  #   for_each = var.lifecycle_rule_set
-  #   lifecycle_rule {
-  #     enabled = true
-  #     expiration {
-  #       days = var.lifecycle_rule_days
-  #     }
-  #   }
-  # }
+  dynamic "lifecycle_rule" {
+    for_each = var.lifecycle_rule_inputs == null ? [] : var.lifecycle_rule_inputs
 
-  lifecycle_rule = var.lifecycle_rule
+    content {
+      enabled                                = lifecycle_rule.value.enabled
+      abort_incomplete_multipart_upload_days = lifecycle_rule.value.abort_incomplete_multipart_upload_days
+
+      dynamic "expiration" {
+        for_each = lifecycle_rule.value.expiration_inputs == [] ? null : lifecycle_rule.value.expiration_inputs
+
+        content {
+          days = expiration.value.days
+        }
+      }
+    }
+  }
 }
 
 # Make sure no object could ever be public

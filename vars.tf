@@ -55,20 +55,13 @@ variable "ignore_public_acls" {
   description = "Only the bucket owner and AWS Services can access this buckets if it has a public policy."
 }
 
-# variable "lifecycle_rule_set" {
-#   type        = set(bool)
-#   default     = false
-#   description = "Set a lifecycle rule on bucket."
-# }
-
-# variable "lifecycle_rule_days" {
-#   type        = number
-#   default     = 7
-#   description = "The number of days after object creation to execute the rule."
-# }
-
-variable "lifecycle_rule" {
-  type        = map
-  default     = {}
-  description = "The lifecycle rule."
+variable "lifecycle_rule_inputs" {
+  type = list(object({
+    enabled                                = string
+    abort_incomplete_multipart_upload_days = string
+    expiration_inputs = list(object({
+      days = number
+    }))
+  }))
+  default = null
 }
