@@ -65,3 +65,14 @@ variable "lifecycle_rule_inputs" {
   }))
   default = null
 }
+
+variable "cors_policy" {
+  type = object({
+    allowed_headers = list(string)
+    allowed_methods = list(string)
+    allowed_origins = list(string)
+    expose_headers  = list(string)
+    max_age_seconds = number
+  })
+  default = null
+}

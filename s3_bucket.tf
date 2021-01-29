@@ -22,6 +22,18 @@ resource "aws_s3_bucket" "s3_buckets" {
       }
     }
   }
+
+  dynamic "cors_rule" {
+    for_each = var.cors_policy == null ? tomap() : var.cors_policy
+
+    content {
+      allowed_headers = cors_policy.value.allowed_headers
+      allowed_methods = cors_policy.value.allowed_methods
+      allowed_origins = cors_policy.value.allowed_origins
+      expose_headers  = cors_policy.value.expose_headers
+      max_age_seconds = cors_policy.value.max_age_seconds
+    }
+  }
 }
 
 # Make sure no object could ever be public
