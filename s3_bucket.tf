@@ -1,8 +1,8 @@
 # Give an s3 bucket to each bucket name passed to the module
 resource "aws_s3_bucket" "s3_buckets" {
-  for_each = var.s3_bucket_names
+  for_each = var.s3_bucket_config
 
-  bucket = each.value
+  bucket = each.key
   acl    = var.acl
   tags   = var.tags
 
@@ -24,7 +24,7 @@ resource "aws_s3_bucket" "s3_buckets" {
   }
 
   dynamic "cors_rule" {
-    for_each = var.cors_rule_inputs == null ? [] : var.cors_rule_inputs
+    for_each = lookup(each.value, "cors_rule_inputs", [])
 
     content {
       allowed_headers = cors_rule.value.allowed_headers
@@ -38,9 +38,9 @@ resource "aws_s3_bucket" "s3_buckets" {
 
 # Make sure no object could ever be public
 resource "aws_s3_bucket_public_access_block" "s3_buckets" {
-  for_each = var.s3_bucket_names
+  for_each = var.s3_bucket_config
 
-  bucket = each.value
+  bucket = each.key
 
   block_public_acls       = var.block_public_acls
   block_public_policy     = var.block_public_policy

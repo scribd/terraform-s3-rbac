@@ -4,9 +4,17 @@ variable "aws_region" {
   default     = "us-east-2"
 }
 
-variable "s3_bucket_names" {
-  type        = set(string)
-  description = "one or many of your s3 bucket name(s)"
+variable "s3_bucket_config" {
+  type = map(object({
+    cors_rule_inputs = list(object({
+      allowed_headers = list(string)
+      allowed_methods = list(string)
+      allowed_origins = list(string)
+      expose_headers  = list(string)
+      max_age_seconds = number
+    }))
+  }))
+  default = null
 }
 
 variable "remote_principals_arns" {
