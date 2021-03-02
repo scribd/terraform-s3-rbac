@@ -3,11 +3,11 @@ resource "aws_s3_bucket" "s3_buckets" {
   for_each = var.s3_bucket_config
 
   bucket = each.key
-  acl    = var.acl
+  acl    = lookup(each.value, "acl", "private")
   tags   = var.tags
 
   dynamic "lifecycle_rule" {
-    for_each = var.lifecycle_rule_inputs == null ? [] : var.lifecycle_rule_inputs
+    for_each = lookup(each.value, "lifecycle_rule_inputs", [])
 
     content {
       enabled                                = lifecycle_rule.value.enabled
@@ -42,10 +42,10 @@ resource "aws_s3_bucket_public_access_block" "s3_buckets" {
 
   bucket = each.key
 
-  block_public_acls       = var.block_public_acls
-  block_public_policy     = var.block_public_policy
-  restrict_public_buckets = var.restrict_public_buckets
-  ignore_public_acls      = var.ignore_public_acls
+  block_public_acls       = lookup(each.value, "block_public_acls", true)
+  block_public_policy     = lookup(each.value, "block_public_policy", true)
+  restrict_public_buckets = lookup(each.value, "restrict_public_buckets", true)
+  ignore_public_acls      = lookup(each.value, "ignore_public_acls", true)
 
   depends_on = [aws_s3_bucket.s3_buckets]
 }
