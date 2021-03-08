@@ -19,14 +19,14 @@ data "aws_iam_policy_document" "s3_bucket_access_role" {
 
 data "aws_iam_policy_document" "s3_bucket_access" {
   statement {
-    resources = [for s in var.s3_bucket_names : "arn:aws:s3:::${s}"]
+    resources = [for s in keys(var.s3_bucket_config) : "arn:aws:s3:::${s}"]
     effect    = "Allow"
     actions   = ["s3:*"]
     sid       = "terraform0"
   }
 
   statement {
-    resources = [for s in var.s3_bucket_names : "arn:aws:s3:::${s}/*"]
+    resources = [for s in keys(var.s3_bucket_config) : "arn:aws:s3:::${s}/*"]
     effect    = "Allow"
     actions   = ["s3:*"]
     sid       = "terraform1"
